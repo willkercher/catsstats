@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Member List</title>
+    <style>
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #999;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        form {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Cats Stats Members</h1>
+    <div style="width: 80%; margin: auto; margin-bottom: 40px; border: 1px solid #ccc; padding: 20px;">
+        <h2>Add New Member</h2>
+        <form method="POST" action="/">
+            <label>Full Name:<br>
+                <input type="text" name="full_name" required style="width: 100%;">
+            </label><br><br>
+    
+            <label>Email:<br>
+                <input type="email" name="email" required style="width: 100%;">
+            </label><br><br>
+    
+            <label>Class Year:<br>
+                <input type="text" name="class_year" required style="width: 100%;">
+            </label><br><br>
+    
+            <label>Select Position:<br>
+                <select name="position_id" style="width: 100%;">
+                    {% for position in positions %}
+                        <option value="{{ position[0] }}">{{ position[1] }}</option>
+                    {% endfor %}
+                </select>
+            </label><br><br>
+    
+            <label>Or Add New Position:<br>
+                <input type="text" name="new_position" style="width: 100%;">
+            </label><br><br>
+    
+            <button type="submit">Add Member</button>
+        </form>
+    </div>    
+    <table>
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Class Year</th>
+                <th>Positions</th>
+                <th>Assign Position</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in members %}
+            <tr>
+                <td>{{ member[0] }}</td>
+                <td>{{ member[1] }}</td>
+                <td>{{ member[2] }}</td>
+                <td>{{ member[3] or 'None' }}</td>
+                <td>
+                    <form method="POST" action="/">
+                        <input type="hidden" name="member_id" value="{{ member[0] }}">
+                        <select name="position_id">
+                            {% for position in positions %}
+                                <option value="{{ position[0] }}">{{ position[1] }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit">Add</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
